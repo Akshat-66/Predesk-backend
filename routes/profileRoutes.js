@@ -1,22 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const profileController = require('../controllers/profileController')
+const profileController = require('../controllers/profileController');
+const { protect } = require('../middleware/authMiddleware'); // adjust path if needed
 
+// Apply protect to all routes
+router.use(protect);
 
 // Extra queries
-router.get('/search', profileController.searchByAny);         // Search profiles
-router.get('/projects', profileController.getProjectsBySkill);   // Get projects by skill
-router.get('/skills/top', profileController.getTopSkills);       // Get top 10 skills
-
-
+router.get('/search', profileController.searchByAny);         
+router.get('/projects', profileController.getProjectsBySkill);   
+router.get('/skills/top', profileController.getTopSkills);       
 
 // CRUD
-router.post('/', profileController.createProfile);          // Create Profile
-router.get('/', profileController.getProfiles);             // Get all Profiles
-router.get('/:email', profileController.getProfileByEmail);       // Get Profile by ID
-router.put('/:email', profileController.updateProfileByEmail);        // Update Profile
-router.delete('/:email', profileController.deleteProfileByEmail);  // Delete Profile
-
-
+router.post('/', profileController.createProfile);          
+router.get('/', profileController.getProfiles);             
+router.get('/:email', profileController.getProfileByEmail);       
+router.put('/:email', profileController.updateProfileByEmail);        
+router.delete('/:email', profileController.deleteProfileByEmail);  
 
 module.exports = router;
