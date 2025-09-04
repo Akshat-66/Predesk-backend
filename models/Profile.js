@@ -10,9 +10,9 @@ const profileSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    education: [
+    education: 
         { type: String, }
-    ],
+    ,
     skills: [
         {
             type: String,
@@ -22,7 +22,7 @@ const profileSchema = new mongoose.Schema({
         {
             title: { type: String, required: true },
             description: { type: String },
-            links: { type: String }
+            link: { type: String }
         }
     ],
     work: [
