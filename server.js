@@ -3,8 +3,8 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes')
-const profileRoutes = require('./routes/profileRoutes')
+const authRoutes = require('./routes/authRoutes.js')
+const profileRoutes = require('./routes/profileRoutes.js')
 dotenv.config();
 const app = express();
 

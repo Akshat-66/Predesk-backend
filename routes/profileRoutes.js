@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const profileController = require('../controllers/profileController');
-const { protect } = require('../middleware/authMiddleware'); // adjust path if needed
+const profileController = require('../controllers/profileController.js');
+const { protect } = require('../middleware/authMiddleware.js'); 
 
 // Apply protect to all routes
 router.use(protect);

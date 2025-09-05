@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
-const authController = require('../controllers/userController')
-const {protect} = require('../middleware/authMiddleware')
+const authController = require('../controllers/userController.js')
+const {protect} = require('../middleware/authMiddleware.js')
 
 
 // Public
