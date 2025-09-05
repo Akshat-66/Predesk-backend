@@ -8,26 +8,23 @@ const profileRoutes = require('./routes/profileRoutes.js')
 dotenv.config();
 const app = express();
 
-
 // Middleware
 app.use(express.json());
-app.use(cors());
 
+// CORS setup
 app.use(cors({
-  origin: 'https://predesk-frontend.vercel.app/', // frontend URL
+  origin: 'https://predesk-frontend.vercel.app', // remove trailing slash
   methods: ['GET','POST','PUT','DELETE'],
   credentials: true
 }));
 
-//config
+// Connect to DB
 connectDB();
-
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profiles', profileRoutes);
 
-app.listen(process.env.PORT,()=>{
-    console.log(`Server started on PORT ${process.env.PORT}`);
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server started on PORT ${process.env.PORT}`)
 })
-
