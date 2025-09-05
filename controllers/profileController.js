@@ -1,9 +1,9 @@
-const Profiles = require('../models/profile.js');
+const Profile = require('../models/profileModel.js');
 
 // Create Profile
 exports.createProfile = async (req, res) => {
     try {
-        const profile = await Profiles.create(req.body);
+        const profile = await Profile.create(req.body);
         res.status(201).json(profile);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -13,7 +13,7 @@ exports.createProfile = async (req, res) => {
 // Get all Profiles
 exports.getProfiles = async (req, res) => {
     try {
-        const profiles = await Profiles.find();
+        const profiles = await Profile.find();
         res.status(200).json(profiles);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -23,7 +23,7 @@ exports.getProfiles = async (req, res) => {
 // Get single Profile by Email
 exports.getProfileByEmail = async (req, res) => {
   try {
-    const profile = await Profiles.findOne({ email: req.params.email });
+    const profile = await Profile.findOne({ email: req.params.email });
     if (!profile) return res.status(404).json({ message: "Profile not found" });
     res.status(200).json(profile);
   } catch (error) {
@@ -35,7 +35,7 @@ exports.getProfileByEmail = async (req, res) => {
 // Update Profile by Email
 exports.updateProfileByEmail = async (req, res) => {
     try {
-        const profile = await Profiles.findOneAndUpdate(
+        const profile = await Profile.findOneAndUpdate(
             { email: req.params.email },
             req.body,
             { new: true, runValidators: true }
@@ -51,7 +51,7 @@ exports.updateProfileByEmail = async (req, res) => {
 // Delete Profile by Email
 exports.deleteProfileByEmail = async (req, res) => {
     try {
-        const profile = await Profiles.findOneAndDelete({ email: req.params.email });
+        const profile = await Profile.findOneAndDelete({ email: req.params.email });
         if (!profile) return res.status(404).json({ message: "Profile not found" });
         res.status(200).json({ message: "Profile deleted successfully" });
     } catch (error) {
@@ -68,7 +68,7 @@ exports.searchByAny = async (req, res) => {
         if (!q) return res.status(400).json({ message: "Search query required" });
 
         const regex = new RegExp(q, "i"); // makes search case-insensitive
-        const profiles = await Profiles.find({
+        const profiles = await Profile.find({
             $or: [ // or -> for any single condition true
                 { name: regex }, 
                 { email: regex },
@@ -92,7 +92,7 @@ exports.getProjectsBySkill = async (req, res) => {
         const { skill } = req.query;
         if (!skill) return res.status(400).json({ message: "Skill is required" });
 
-        const profiles = await Profiles.find(
+        const profiles = await Profile.find(
             { skills: skill },              // this will search in the document
             { projects: 1, name: 1, email: 1 } // these fields will be returned after match
         );
@@ -108,7 +108,7 @@ exports.getProjectsBySkill = async (req, res) => {
 // List down top 10 skills present in the database
 exports.getTopSkills = async (req, res) => {
     try {
-        const skills = await Profiles.aggregate([
+        const skills = await Profile.aggregate([
             { $unwind: "$skills" }, // breaking up the skills array with id
             { $group: { _id: "$skills", count: { $sum: 1 } } }, // group the skills and get the counts
             { $sort: { count: -1 } }, // sort the array according to the top skills 
